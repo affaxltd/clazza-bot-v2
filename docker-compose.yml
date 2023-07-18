@@ -1,0 +1,9 @@
+---
+version: "3"
+name: clazza-bot
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env

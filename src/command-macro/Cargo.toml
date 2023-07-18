@@ -1,0 +1,12 @@
+[package]
+name = "command-macro"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+# Macros
+syn = { version = "1", features = ["full"] }
+quote = "1"

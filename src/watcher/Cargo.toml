@@ -1,0 +1,16 @@
+[package]
+name = "watcher"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Workspace
+twitch = { path = "../twitch" }
+utils = { path = "../utils" }
+
+# Async
+async-trait = "0.1"
+
+# Errors
+anyhow = "1"
+log = "0.4"

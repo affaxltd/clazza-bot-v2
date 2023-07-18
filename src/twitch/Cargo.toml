@@ -1,0 +1,21 @@
+[package]
+name = "twitch"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Workspace
+utils = { path = "../utils" }
+
+# Twitch
+twitch-irc = "5"
+twitch_api = "0.7.0-rc.6"
+
+# Async
+async-rwlock = "1"
+async-trait = "0.1"
+tokio = "1"
+
+# Errors
+anyhow = "1"
+thiserror = "1"
