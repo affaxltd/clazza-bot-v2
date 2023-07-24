@@ -58,12 +58,7 @@ impl<Ctx: Clone> Listener<MessageEvent<Ctx>> for CommandManager<Ctx> {
             let args: Vec<_> = message
                 .message_text
                 .split(' ')
-                .map(|s| {
-                    s.trim()
-                        .chars()
-                        .filter(|c| c.is_ascii())
-                        .collect::<String>()
-                })
+                .map(|s| s.trim().chars().filter(char::is_ascii).collect::<String>())
                 .filter(|s| !s.is_empty())
                 .collect();
 

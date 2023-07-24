@@ -52,7 +52,13 @@ impl<Ctx: Clone> Watcher<Ctx> {
 impl<Ctx: Clone> Listener<MessageEvent<Ctx>> for Watcher<Ctx> {
     async fn on(&self, (client, message): MessageEvent<Ctx>) -> bool {
         if let ServerMessage::Privmsg(message) = message {
-            let args: Vec<_> = message.message_text.split(' ').collect();
+            let args: Vec<_> = message
+                .message_text
+                .to_lowercase()
+                .split(' ')
+                .map(|s| s.trim().chars().filter(char::is_ascii).collect::<String>())
+                .collect();
+
             let responses = self.responses.read().await;
 
             if let Some((response, cooldown)) = args

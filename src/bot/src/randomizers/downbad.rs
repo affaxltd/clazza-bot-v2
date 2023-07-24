@@ -1,13 +1,17 @@
 use command::manager::CommandManager;
-use utils::if_chain;
+use utils::{async_lock::AsyncLock, if_chain, time::Cooldown};
 
 use crate::commands::randomizer::Randomizer;
 
-pub async fn register_downbad<Ctx: Clone>(manager: &CommandManager<Ctx>) {
+pub async fn register_downbad<Ctx: Clone>(
+    cooldown: AsyncLock<Cooldown>,
+    manager: &CommandManager<Ctx>,
+) {
     manager
         .add_command(Randomizer::new(
             "downbad",
             "Get your down bad.",
+            cooldown,
             0.0..=100.0,
             |value, from| {
                 format!(

@@ -1,4 +1,5 @@
 use command::manager::CommandManager;
+use utils::{async_lock::IntoLock, time::Cooldown};
 
 use crate::commands::randomizer::Randomizer;
 
@@ -7,6 +8,7 @@ pub async fn register_coinflip<Ctx: Clone>(manager: &CommandManager<Ctx>) {
         .add_command(Randomizer::new(
             "coinflip",
             "Flip the coin between Heads and Tails.",
+            Cooldown::new().into_lock(),
             0.0..=100.0,
             |value, from| {
                 format!(

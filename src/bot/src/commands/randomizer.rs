@@ -21,21 +21,35 @@ pub struct Randomizer<
     format: F,
     range: R,
     rng: AsyncLock<ThreadRng>,
-    cooldown: Cooldown,
+    cooldown: AsyncLock<Cooldown>,
     _marker: PhantomData<N>,
 }
 
 impl<N: SampleUniform + PartialOrd, R: SampleRange<N> + Clone, F: Fn(N, &str) -> String>
     Randomizer<N, R, F>
 {
-    pub fn new(name: &str, description: &str, range: R, format: F) -> Self {
-        Self::new_alias(name, description, Vec::<String>::new(), range, format)
+    pub fn new(
+        name: &str,
+        description: &str,
+        cooldown: AsyncLock<Cooldown>,
+        range: R,
+        format: F,
+    ) -> Self {
+        Self::new_alias(
+            name,
+            description,
+            Vec::<String>::new(),
+            cooldown,
+            range,
+            format,
+        )
     }
 
     pub fn new_alias(
         name: &str,
         description: &str,
         alias: impl IntoIterator<Item = impl ToString>,
+        cooldown: AsyncLock<Cooldown>,
         range: R,
         format: F,
     ) -> Self {
@@ -48,7 +62,7 @@ impl<N: SampleUniform + PartialOrd, R: SampleRange<N> + Clone, F: Fn(N, &str) ->
             format,
             range,
             rng: thread_rng().into_lock(),
-            cooldown: Cooldown::new(),
+            cooldown,
             _marker: PhantomData,
         }
     }
@@ -72,7 +86,9 @@ impl<
         message: &PrivmsgMessage,
         _args: &mut Args,
     ) -> impl CommandResult<Ctx> {
-        if self.cooldown.cooldown_passed(4900).await {
+        let cooldown = self.cooldown.read().await;
+
+        if cooldown.cooldown_passed(6900).await {
             let result: N = self.rng.write().await.gen_range(self.range.clone());
 
             client

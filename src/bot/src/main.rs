@@ -10,6 +10,7 @@ use randomizers::{
 };
 use tags::{hug::register_hug, kiss::register_kiss};
 use twitch::{client::Client, providers::simple::Simple};
+use utils::{async_lock::IntoLock, time::Cooldown};
 use watcher::Watcher;
 
 pub mod commands;
@@ -55,11 +56,13 @@ async fn create_manager() -> CommandManager<Ctx> {
     register_hug(&manager).await;
     register_kiss(&manager).await;
 
+    let random_cooldown = Cooldown::new().into_lock();
+
     register_coinflip(&manager).await;
-    register_downbad(&manager).await;
-    register_noob(&manager).await;
-    register_ping(&manager).await;
-    register_rizz(&manager).await;
+    register_downbad(random_cooldown.clone(), &manager).await;
+    register_noob(random_cooldown.clone(), &manager).await;
+    register_ping(random_cooldown.clone(), &manager).await;
+    register_rizz(random_cooldown.clone(), &manager).await;
 
     manager
 }
