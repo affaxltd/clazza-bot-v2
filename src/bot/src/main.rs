@@ -33,6 +33,8 @@ async fn main() -> Result<()> {
     let bot_token = env::var("BOT_TOKEN")?;
     let channel = env::var("BOT_CHANNEL")?;
 
+    log::info!("Starting up...");
+
     let credentials = Simple(&bot_login, &bot_token);
     let client = Client::new(&credentials, Ctx {}).await?;
 
