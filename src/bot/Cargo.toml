@@ -9,10 +9,12 @@ twitch = { path = "../twitch" }
 command = { path = "../command" }
 watcher = { path = "../watcher" }
 utils = { path = "../utils" }
+db = { path = "../db" }
 
 # Async
 tokio = { version = "1", features = ["full"] }
 async-trait = "0.1"
+futures = "0.3"
 
 # Logging
 log = "0.4"

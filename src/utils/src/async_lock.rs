@@ -10,6 +10,10 @@ pub trait IntoLock<T> {
 
 impl<T> IntoLock<T> for T {
     fn into_lock(self) -> AsyncLock<T> {
-        Arc::new(RwLock::new(self))
+        async_lock(self)
     }
+}
+
+pub fn async_lock<T>(value: T) -> AsyncLock<T> {
+    Arc::new(RwLock::new(value))
 }

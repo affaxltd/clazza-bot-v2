@@ -10,10 +10,10 @@ pub struct Args {
 
 #[derive(Error, Debug)]
 pub enum ArgsError {
-    #[error("Argument out of bounds")]
-    OutOfBounds,
-    #[error("Unable to parse argument")]
-    Parse,
+    #[error("Argument '{0} out of bounds")]
+    OutOfBounds(String),
+    #[error("Unable to parse argument '{0}")]
+    Parse(String),
     #[error("Argument '{0} not found")]
     Custom(String),
 }
@@ -40,7 +40,9 @@ impl Args {
             .get(self.i)
             .ok_or_else(|| ArgsError::Custom(name.to_string()))?;
 
-        let value: T = arg.parse().map_err(|_| ArgsError::Parse)?;
+        let value: T = arg
+            .parse()
+            .map_err(|_| ArgsError::Parse(name.to_string()))?;
 
         self.i += 1;
 
