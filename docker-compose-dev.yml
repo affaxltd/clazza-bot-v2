@@ -1,0 +1,16 @@
+---
+version: "3"
+name: clazza-bot
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: affax
+      POSTGRES_PASSWORD: affax
+      POSTGRES_DB: clazzabot
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 127.0.0.1:27854:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data

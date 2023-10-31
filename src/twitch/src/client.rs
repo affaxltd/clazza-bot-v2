@@ -3,7 +3,7 @@ use anyhow::Result;
 use thiserror::Error;
 use tokio::sync::mpsc::UnboundedReceiver;
 use twitch_irc::{
-    login::StaticLoginCredentials, message::ServerMessage, ClientConfig, SecureTCPTransport,
+    login::StaticLoginCredentials, message::ServerMessage, ClientConfig, SecureWSTransport,
     TwitchIRCClient,
 };
 use utils::{
@@ -11,7 +11,7 @@ use utils::{
     event_emitter::EventEmitter,
 };
 
-type InternalIRCClient = TwitchIRCClient<SecureTCPTransport, StaticLoginCredentials>;
+type InternalIRCClient = TwitchIRCClient<SecureWSTransport, StaticLoginCredentials>;
 
 pub type MessageEvent<Ctx> = (Client<Ctx>, ServerMessage);
 
@@ -78,6 +78,10 @@ impl<Ctx: Clone> Client<Ctx> {
             .await?;
 
         Ok(())
+    }
+
+    pub async fn x(&self) {
+        self.client.read().await;
     }
 
     pub async fn ctx(&self) -> Ctx {

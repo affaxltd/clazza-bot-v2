@@ -78,9 +78,10 @@ impl<Ctx: Clone> Listener<MessageEvent<Ctx>> for CommandManager<Ctx> {
             if let Some(command) = commands.get(first) {
                 let args = &args[1..];
                 let mut args = Args::new(args);
+                let command_name = command.command_info().name;
 
                 info!(
-                    "{} ({}) ran command {first}",
+                    "{} ({}) ran command {command_name}",
                     &message.sender.login, &message.sender.id
                 );
 

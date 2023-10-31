@@ -1,5 +1,4 @@
 use ::utils::async_lock::{AsyncLock, IntoLock};
-use anyhow::Result;
 use command::prelude::*;
 use rand::{rngs::ThreadRng, thread_rng};
 use twitch::{client::Client, irc::message::PrivmsgMessage};

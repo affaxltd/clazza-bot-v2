@@ -8,8 +8,8 @@ edition = "2021"
 utils = { path = "../utils" }
 
 # Twitch
-twitch-irc = "5"
-twitch_api = "0.7.0-rc.6"
+twitch-irc = { version = "5", default_features = false, features = ["transport-ws", "transport-ws-rustls-native-roots"] }
+twitch_api = { version = "0.7.0-rc.7", features = ["client", "helix", "unsupported"] }
 
 # Async
 async-rwlock = "1"

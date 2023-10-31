@@ -2,6 +2,24 @@ use anyhow::Result;
 use async_trait::async_trait;
 use twitch::{client::Client, irc::message::PrivmsgMessage};
 
+pub struct StringResult(pub String);
+
+pub trait IntoResult {
+    fn into_result(self) -> StringResult;
+}
+
+impl ToString for StringResult {
+    fn to_string(&self) -> String {
+        self.0.clone()
+    }
+}
+
+impl<T: ToString> IntoResult for T {
+    fn into_result(self) -> StringResult {
+        StringResult(self.to_string())
+    }
+}
+
 #[async_trait(?Send)]
 pub trait CommandResult<Ctx: Clone> {
     async fn execute(&self, client: &Client<Ctx>, message: &PrivmsgMessage) -> Result<()>;
