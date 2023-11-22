@@ -28,6 +28,7 @@ pub async fn register_ping<Ctx: Clone>(
                     )
                 )
             },
+            vec![],
         ))
         .await;
 }

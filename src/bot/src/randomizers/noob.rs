@@ -26,6 +26,7 @@ pub async fn register_noob<Ctx: Clone>(
                     )
                 )
             },
+            vec![],
         ))
         .await;
 }

@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use anyhow::Result;
 use async_trait::async_trait;
 use twitch::{client::Client, irc::message::PrivmsgMessage};
@@ -11,9 +13,15 @@ pub struct CommandInfo {
     pub alias: Vec<String>,
 }
 
+pub type Guard = Arc<dyn Fn(&PrivmsgMessage, Args) -> bool + 'static>;
+
 #[async_trait(?Send)]
 pub trait Command<Ctx: Clone> {
     fn command_info(&self) -> CommandInfo;
+
+    fn guards(&self) -> Arc<Vec<Guard>> {
+        vec![].into()
+    }
 
     async fn execute(
         &self,

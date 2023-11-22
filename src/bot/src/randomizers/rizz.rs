@@ -26,6 +26,7 @@ pub async fn register_rizz<Ctx: Clone>(
                     )
                 )
             },
+            vec![],
         ))
         .await;
 }

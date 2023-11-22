@@ -26,6 +26,7 @@ pub async fn register_downbad<Ctx: Clone>(
                     )
                 )
             },
+            vec![],
         ))
         .await;
 }

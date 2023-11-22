@@ -1,4 +1,4 @@
-use std::marker::PhantomData;
+use std::{marker::PhantomData, sync::Arc};
 
 use ::utils::{
     async_lock::{AsyncLock, IntoLock},
@@ -22,6 +22,7 @@ pub struct Randomizer<
     range: R,
     rng: AsyncLock<ThreadRng>,
     cooldown: AsyncLock<Cooldown>,
+    guards: Arc<Vec<Guard>>,
     _marker: PhantomData<N>,
 }
 
@@ -34,6 +35,7 @@ impl<N: SampleUniform + PartialOrd, R: SampleRange<N> + Clone, F: Fn(N, &str) ->
         cooldown: AsyncLock<Cooldown>,
         range: R,
         format: F,
+        guards: impl Into<Arc<Vec<Guard>>>,
     ) -> Self {
         Self::new_alias(
             name,
@@ -42,6 +44,7 @@ impl<N: SampleUniform + PartialOrd, R: SampleRange<N> + Clone, F: Fn(N, &str) ->
             cooldown,
             range,
             format,
+            guards.into(),
         )
     }
 
@@ -52,6 +55,7 @@ impl<N: SampleUniform + PartialOrd, R: SampleRange<N> + Clone, F: Fn(N, &str) ->
         cooldown: AsyncLock<Cooldown>,
         range: R,
         format: F,
+        guards: impl Into<Arc<Vec<Guard>>>,
     ) -> Self {
         Self {
             info: CommandInfo {
@@ -63,6 +67,7 @@ impl<N: SampleUniform + PartialOrd, R: SampleRange<N> + Clone, F: Fn(N, &str) ->
             range,
             rng: thread_rng().into_lock(),
             cooldown,
+            guards: guards.into(),
             _marker: PhantomData,
         }
     }
@@ -78,6 +83,10 @@ impl<
 {
     fn command_info(&self) -> CommandInfo {
         self.info.clone()
+    }
+
+    fn guards(&self) -> Arc<Vec<Guard>> {
+        self.guards.clone()
     }
 
     async fn execute(
