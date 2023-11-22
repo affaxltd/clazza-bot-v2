@@ -80,10 +80,13 @@ impl<Ctx: Clone> Listener<MessageEvent<Ctx>> for CommandManager<Ctx> {
                 let mut args = Args::new(args);
                 let command_name = command.command_info().name;
 
-                if command
-                    .guards()
-                    .iter()
-                    .all(|guard| !guard(&message, args.clone()))
+                let guards = command.guards();
+                let guards = guards.iter().collect::<Vec<_>>();
+
+                if guards.len() > 0
+                    && !guards
+                        .into_iter()
+                        .any(|guard| guard(&message, args.clone()))
                 {
                     return false;
                 }
