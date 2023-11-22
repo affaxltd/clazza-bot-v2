@@ -39,9 +39,9 @@ pub fn staff_guard() -> Guard {
 }
 
 pub fn user_guard(ids: Vec<&'static str>) -> Guard {
-    create_guard(move |message, _| ids.iter().any(|id| message.sender.id.as_str() == *id))
+    create_guard(move |message, _| ids.iter().any(|id| message.sender.login.as_str() == *id))
 }
 
 pub fn blacklist_guard(ids: Vec<&'static str>) -> Guard {
-    create_guard(move |message, _| !ids.iter().any(|id| message.sender.id.as_str() == *id))
+    create_guard(move |message, _| !ids.iter().any(|id| message.sender.login.as_str() == *id))
 }
