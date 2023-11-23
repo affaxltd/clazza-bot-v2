@@ -55,7 +55,7 @@ async fn main() -> Result<()> {
     let channel = env::var("BOT_CHANNEL")?;
 
     log::info!("Starting up...");
-    
+
     let db_url = env::var("DB_URL")?;
 
     let db = Database::connect(&db_url).await?;
@@ -140,7 +140,7 @@ async fn create_manager() -> CommandManager<Ctx> {
     register_rizz(random_cooldown.clone(), &manager).await;
 
     manager.add_command(Balance).await;
-    manager.add_command(Gamble).await;
+    manager.add_command(Gamble::new(Cooldown::new())).await;
 
     manager
 }

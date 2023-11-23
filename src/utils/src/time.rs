@@ -58,10 +58,17 @@ impl Cooldown {
         }
     }
 
-    pub async fn cooldown_passed(&self, time: u128) -> bool {
-        if self.timer.since_now().await.as_millis() >= time {
-            self.timer.update_time_now().await;
+    pub async fn is_done(&self, time: u128) -> bool {
+        self.timer.since_now().await.as_millis() >= time
+    }
 
+    pub async fn update_time(&self) {
+        self.timer.update_time_now().await;
+    }
+
+    pub async fn cooldown_passed(&self, time: u128) -> bool {
+        if self.is_done(time).await {
+            self.update_time().await;
             true
         } else {
             false
