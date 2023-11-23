@@ -101,7 +101,7 @@ async fn gamble(
     format!(
         "{from} You {text} {gamba} {} {emote} You have {} {} now.",
         multiple("Zimbabwean Dollar", gamba),
-        balance + gamba,
+        new_value,
         multiple("Zimbabwean Dollar", new_value)
     )
 }
