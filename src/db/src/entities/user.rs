@@ -1,4 +1,4 @@
-use sea_orm::{entity::prelude::*, IntoActiveModel};
+use sea_orm::{entity::prelude::*, IntoActiveModel, QueryOrder};
 
 #[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel)]
 #[sea_orm(table_name = "user")]
@@ -29,4 +29,12 @@ pub async fn get_user(db: &DatabaseConnection, id: &str) -> Result<Model, DbErr>
     let user = user.insert(db).await?;
 
     Ok(user)
+}
+
+pub async fn find_highest_users(db: &DatabaseConnection) -> Result<Vec<Model>, DbErr> {
+    let mut paginator = Entity::find()
+        .order_by_desc(Column::Balance)
+        .paginate(db, 5);
+
+    Ok(paginator.fetch().await?)
 }

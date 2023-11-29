@@ -65,7 +65,7 @@ async fn gamble(
     let user = get_user(db.deref(), from).await?;
 
     let balance = user.balance;
-    let min = 1000;
+    let min = 5000;
 
     let gamba = match gamba {
         GambaType::All => balance,
