@@ -38,3 +38,12 @@ pub async fn find_highest_users(db: &DatabaseConnection) -> Result<Vec<Model>, D
 
     Ok(paginator.fetch().await?)
 }
+
+pub async fn reset_economy(db: &DatabaseConnection) -> Result<(), DbErr> {
+    Entity::update_many()
+        .col_expr(Column::Balance, Expr::value(0))
+        .exec(db)
+        .await?;
+
+    Ok(())
+}

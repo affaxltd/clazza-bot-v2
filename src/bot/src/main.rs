@@ -11,7 +11,7 @@ use db::{
     migrations::{Migrator, MigratorTrait},
     sea::{ActiveModelTrait, ActiveValue, Database, DatabaseConnection, IntoActiveModel},
 };
-use economy::{balance::Balance, gamble::Gamble, leaderboard::Leaderboard};
+use economy::{balance::Balance, gamble::Gamble, leaderboard::Leaderboard, reset::ResetEcon};
 use futures::Future;
 use log::{info, LevelFilter};
 use randomizers::{
@@ -140,8 +140,9 @@ async fn create_manager() -> CommandManager<Ctx> {
     register_rizz(random_cooldown.clone(), &manager).await;
 
     manager.add_command(Balance).await;
-    manager.add_command(Gamble::new(Cooldown::new())).await;
+    // manager.add_command(Gamble::new(Cooldown::new())).await;
     manager.add_command(Leaderboard).await;
+    manager.add_command(ResetEcon::new()).await;
 
     manager
 }
@@ -156,7 +157,7 @@ async fn create_watcher() -> Watcher<Ctx> {
             ("ThugShaker", "We love ThugShaker ThugShaker"),
             ("JaneRun", "Down bad lookUp"),
             ("plague", "I love Vommy Mommy Lovegers"),
-            ("!play", "!play"),
+            ("!play", "!play 4"),
         ])
         .await;
 
