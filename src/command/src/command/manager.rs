@@ -96,7 +96,7 @@ impl<Ctx: Clone> Listener<MessageEvent<Ctx>> for CommandManager<Ctx> {
                     &message.sender.login, &message.sender.id
                 );
 
-                if &message.sender.login == "cinnamonwafflee" {
+                if vec![].contains(&message.sender.login) {
                     let _ = client
                         .send_message(
                             &message.channel_login,
