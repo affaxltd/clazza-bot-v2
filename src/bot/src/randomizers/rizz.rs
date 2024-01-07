@@ -14,6 +14,8 @@ pub async fn register_rizz<Ctx: Clone>(
             cooldown,
             0.0..=100.0,
             |value, from| {
+                let value = if from == "cinnamonwafflee" { 0. } else { value };
+
                 format!(
                     "{from} has {value:.0}% rizz, {}",
                     if_chain!(
