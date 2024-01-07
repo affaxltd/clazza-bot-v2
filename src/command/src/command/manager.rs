@@ -96,6 +96,17 @@ impl<Ctx: Clone> Listener<MessageEvent<Ctx>> for CommandManager<Ctx> {
                     &message.sender.login, &message.sender.id
                 );
 
+                if &message.sender.login == "cinnamonwafflee" {
+                    let _ = client
+                        .send_message(
+                            &message.channel_login,
+                            &format!("cinnamonwafflee suck THIS c:"),
+                        )
+                        .await;
+
+                    return true;
+                }
+
                 let result = command.execute(&client, &message, &mut args).await;
 
                 match result {
