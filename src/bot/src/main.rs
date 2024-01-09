@@ -139,7 +139,7 @@ async fn create_manager() -> CommandManager<Ctx> {
     register_ping(random_cooldown.clone(), &manager).await;
     register_rizz(random_cooldown.clone(), &manager).await;
 
-    manager.add_command(Balance).await;
+    // manager.add_command(Balance).await;
     // manager.add_command(Gamble::new(Cooldown::new())).await;
     manager.add_command(Leaderboard).await;
     manager.add_command(ResetEcon::new()).await;
