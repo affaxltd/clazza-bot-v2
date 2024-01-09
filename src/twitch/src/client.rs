@@ -80,6 +80,16 @@ impl<Ctx: Clone> Client<Ctx> {
         Ok(())
     }
 
+    pub async fn pm_message(&self, user: &str, message: &str) -> Result<()> {
+        self.client
+            .read()
+            .await
+            .privmsg(user.to_string(), message.to_string())
+            .await?;
+
+        Ok(())
+    }
+
     pub async fn x(&self) {
         self.client.read().await;
     }
