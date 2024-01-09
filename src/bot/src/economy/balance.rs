@@ -32,13 +32,15 @@ async fn balance(
 
     let balance = user.balance;
 
-    let _ = client.pm_message(
-        from,
-        &format!(
-            "{from} has {balance} {}",
-            multiple("Zimbabwean Dollar", balance)
-        ),
-    );
+    let _ = client
+        .pm_message(
+            from,
+            &format!(
+                "{from} has {balance} {}",
+                multiple("Zimbabwean Dollar", balance)
+            ),
+        )
+        .await;
 
     NoResult
 }
