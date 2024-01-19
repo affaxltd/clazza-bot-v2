@@ -157,7 +157,7 @@ async fn create_watcher() -> Watcher<Ctx> {
             ("ThugShaker", "We love ThugShaker ThugShaker"),
             ("JaneRun", "Down bad lookUp"),
             ("plague", "I love Vommy Mommy Lovegers"),
-            ("!play", "!play 4"),
+            // ("!play", "!play 4"), No more play ;w;
         ])
         .await;
 
