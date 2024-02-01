@@ -2,7 +2,7 @@ use std::{env, ops::Deref};
 
 use anyhow::Result;
 use command::manager::CommandManager;
-use commands::hello::Hello;
+use commands::{dap::Dap, hello::Hello};
 use db::{
     entities::{
         user::{self, get_user},
@@ -143,6 +143,8 @@ async fn create_manager() -> CommandManager<Ctx> {
     // manager.add_command(Gamble::new(Cooldown::new())).await;
     manager.add_command(Leaderboard).await;
     manager.add_command(ResetEcon::new()).await;
+
+    manager.add_command(Dap).await;
 
     manager
 }
