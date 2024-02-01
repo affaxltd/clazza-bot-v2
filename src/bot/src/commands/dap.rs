@@ -32,9 +32,9 @@ impl Command<Ctx> for Dap {
         message: &PrivmsgMessage,
         _args: &mut Args,
     ) -> Result<impl CommandResult<Ctx>> {
-        let is_dapper = &message.sender.id == DAPPER;
-        let first = if is_dapper { DAPPER } else { DAPPEE };
-        let second = if is_dapper { DAPPEE } else { DAPPER };
+        let is_dapper = &message.sender.login == DAPPER;
+        let first = if is_dapper { "Sam" } else { "Classed" };
+        let second = if is_dapper { "Classed" } else { "Sam" };
 
         format!("{first} daps up {second} SupHomie")
     }
