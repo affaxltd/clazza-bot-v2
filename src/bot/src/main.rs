@@ -11,7 +11,10 @@ use db::{
     migrations::{Migrator, MigratorTrait},
     sea::{ActiveModelTrait, ActiveValue, Database, DatabaseConnection, IntoActiveModel},
 };
-use economy::{balance::Balance, gamble::Gamble, leaderboard::Leaderboard, reset::ResetEcon};
+use economy::{
+    balance::Balance, gamble::Gamble, leaderboard::Leaderboard, other_balance::OtherBalance,
+    reset::ResetEcon,
+};
 use futures::Future;
 use log::{info, LevelFilter};
 use randomizers::{
@@ -141,6 +144,7 @@ async fn create_manager() -> CommandManager<Ctx> {
 
     // manager.add_command(Balance).await;
     // manager.add_command(Gamble::new(Cooldown::new())).await;
+    manager.add_command(OtherBalance).await;
     manager.add_command(Leaderboard).await;
     manager.add_command(ResetEcon::new()).await;
 
